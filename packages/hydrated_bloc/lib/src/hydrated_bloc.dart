@@ -526,8 +526,17 @@ class _Traversed {
 late final _defaultStorage = _DefaultStorage();
 
 class _DefaultStorage implements Storage {
+  final _cache = <String, dynamic>{};
+
   @override
-  dynamic noSuchMethod(Invocation invocation) {
-    return super.noSuchMethod(invocation);
-  }
+  Future<void> clear() async => _cache.clear();
+
+  @override
+  Future<void> delete(String key) async => _cache.remove(key);
+
+  @override
+  dynamic read(String key) async => _cache[key];
+
+  @override
+  Future<void> write(String key, dynamic value) async => _cache[key] = value;
 }
